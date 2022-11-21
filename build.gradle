@@ -5,7 +5,7 @@ plugins {
 }
 
 
-group = 'com.lib.uinotification'
+group = 'uinotification'
 version = '1.0.0'
 
 
@@ -61,7 +61,9 @@ afterEvaluate {
     publishing {
         publications {
             mavenRelease(MavenPublication) {
-                from components.release
+                setGroupId('uinotification')
+                setArtifactId('com.lib.uinotification')
+                setVersion('1.0.0')
             }
         }
     }
