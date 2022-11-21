@@ -1,7 +1,13 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
 }
+
+
+group = 'com.lib.uinotification'
+version = '1.0.0'
+
 
 android {
     namespace 'com.lib.uinotification'
@@ -10,7 +16,9 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 32
-
+        aarMetadata {
+            minCompileSdk = 21
+        }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -28,6 +36,15 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    testFixtures {
+        enable = true
+    }
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
 }
 
 dependencies {
@@ -38,4 +55,14 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            mavenRelease(MavenPublication) {
+                from components.release
+            }
+        }
+    }
 }
